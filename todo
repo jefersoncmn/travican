@@ -1,0 +1,19 @@
+[x] Arrumar o banco de dados
+[ ] Fazer as rotas para todos os valores (CRUD)
+    [x] Gerar ResourceTypes
+    [X] Gerar Soldiers
+    [X] Gerar Production
+    [X] Gerar World
+        [ ] Arrumar bug de criação de tabela intermediária (deve estar bem errado)
+    [ ] Gerar Usuário
+        [X] Autenticação
+        [ ] Gerar Land
+[ ] Fazer os eventos
+    - Fazer uma Thread que ficara com um vetor de eventos ('nomeDoEventoQueirachamarafunção','tempo').
+    Com base nesses dados, colocar em um vetor ordenado pelo tempo, cada processo da API, ele irá atualizar os dados no banco de dados.
+    Esse tempo também deve ser enviado para o usuário, o front atualizará.
+    [ ] Upar Production
+    [ ] Comprar Soldiers
+    [ ] Fazer War
+[ ] Testes
+[ ] Iniciar o frontEnd

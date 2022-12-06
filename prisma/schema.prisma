@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//Tipo de banco
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//Tabelas abaixo
+
+model ResourceType {
+  id String @id @default(uuid())
+  name String
+
+  resource Resource[]
+
+  @@map("resourcetypes")
+  WorldResourceType WorldResourceType[]
+//   ProductionResource ProductionResource[]
+}
+
+model Resource {
+  id String @id @default(uuid())
+  amount Int
+
+  id_resourceType String
+  resourceType ResourceType @relation(fields: [id_resourceType], references: [id])
+
+  land Land?
+  
+  CostToUpgrade Production[] @relation("CostToUpgrade")
+  ReturnedResource Production[] @relation("ReturnedResource")
+
+  CostToSpawn Soldier[] @relation("CostToSpawn")
+  Budget Soldier[] @relation("Budget")
+
+  @@map("resources")
+}
+
+model Production {
+  id String @id @default(uuid())
+  level Int
+  name String
+  
+  id_costToUpgrade String 
+  costToUpgrade Resource @relation("CostToUpgrade", fields: [id_costToUpgrade], references: [id])
+
+  id_returnedResource String
+  returnedResource Resource @relation("ReturnedResource", fields: [id_returnedResource], references: [id])
+
+  timeToUpgrade Int
+  timeToHarvest Int
+
+  @@map("productions")
+  ProductionLand ProductionLand[]
+}
+
+model Soldier {
+  id String @id @default(uuid())
+  name String
+  attack Int
+  defense Int
+  timeToSpawn Int
+
+  id_costToSpawn String
+  costToSpawn Resource @relation("CostToSpawn",fields: [id_costToSpawn], references: [id])
+  
+  id_budget String
+  budget Resource @relation("Budget",fields: [id_budget], references: [id])
+
+  @@map("soldiers")
+  ArmySoldier ArmySoldier[]
+}
+
+model Army {
+  id String @id @default(uuid())
+  land Land?
+
+  @@map("armys")
+  ArmySoldier ArmySoldier[]
+}
+
+model ArmySoldier {
+  id String @id @default(uuid())
+  id_army String
+  army Army @relation(fields: [id_army], references: [id])
+  id_soldier String 
+  soldier Soldier @relation(fields: [id_soldier], references: [id])
+
+  @@map("army_soldier")
+}
+
+model World {
+  id String @id @default(uuid())
+  name String
+  lootPercentage Decimal
+  
+  @@map("worlds")
+  Land Land[]
+  WorldResourceType WorldResourceType[]
+}
+
+model WorldResourceType {
+  id String @id @default(uuid())
+  id_resourceType String
+  resourceType ResourceType @relation(fields: [id_resourceType], references: [id])
+  id_world String 
+  world World @relation(fields: [id_world], references: [id])
+
+  @@map("world_resourceType")
+}
+
+model Land {
+  id String @id @default(uuid())
+  name String
+  //Recursos
+  id_resource String @unique
+  resource Resource @relation(fields: [id_resource], references: [id])
+  //Exercito
+  id_army String @unique
+  army Army @relation(fields: [id_army], references: [id])
+
+  positionX Int
+  positionY Int
+  
+  //Mundo
+  id_world String
+  world World @relation(fields: [id_world], references: [id])
+
+  //User
+  id_user String @unique
+  user User @relation(fields: [id_user], references: [id])
+
+  //War
+  LandAttack War[] @relation("LandAttack")
+  LandDefense War[] @relation("LandDefense")
+ 
+  @@map("lands")
+  //Produção
+  ProductionLand ProductionLand[]
+}
+
+model ProductionLand {
+  id String @id @default(uuid())
+
+  id_land String
+  land Land @relation(fields: [id_land], references: [id])
+
+  id_production String 
+  production Production @relation(fields: [id_production], references: [id])
+
+  @@map("producton_land")
+}
+
+model War {
+  id String @id @default(uuid())
+  
+  id_landAttack String?
+  landAttack Land? @relation("LandAttack", fields: [id_landAttack], references: [id])
+
+  id_landDefense String?
+  landDefense Land? @relation("LandDefense", fields: [id_landDefense], references: [id])
+  timeToStart Decimal
+
+  @@map("wars")
+}
+
+model Event {
+  id String @id @default(uuid())
+  id_user String
+  operation String
+  time Int
+  completeTime DateTime
+  id_production String
+  id_soldier String
+  id_war String
+}
+
+
+model User  {
+  id String @id @default(uuid())
+  name String 
+  userName String @unique
+  password String
+  email String? @unique
+  refresh_token RefreshToken?
+
+  land Land?
+  
+  @@map("users")
+}
+
+model RefreshToken {
+  id String @id @default(uuid())
+  expiresIn Int
+  user User @relation(fields: [id_user], references: [id])
+  id_user String @unique
+
+  @@map("refresh_token")
+}
