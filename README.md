@@ -13,7 +13,7 @@ Tabela de conteúdos
 ### Sobre
 <div align="center">
 	<p>Em desenvolvimento</p>
-	<p>Esse projeto é um coletor de dados de empresas utilizando APIs. Seu objetivo é a coleta, organização e armazenamento dos contatos das empresas coletadas.</p>
+	<p>Esse projeto é um jogo, inspirado no Travian.</p>
 </div>
 
 
@@ -33,51 +33,39 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 - [Git](https://git-scm.com)<br>
 - [VSCode](https://code.visualstudio.com/) ou algum outro programa para realizar a edição de código.<br>
 - [Node](https://nodejs.org/)<br>
-- [Yarn](https://classic.yarnpkg.com/)<br>
-
-- [Firebird](https://firebirdsql.org/)<br>Versão 4.0.2
 
 Cria projeto:
-``yarn init -y``
+``npm init -y``
 
 Instala o Typescript:
-``yarn add typescript``
+``npm add typescript``
 
 Cria o documento de configuração de compilação do Typescript:
-``yarn tsc --init``
+``npm tsc --init``
 
 Adiciona o pacote Express:
-``yarn add express``
+``npm add express``
 
 Adicionar as tipagens do express:
-``yarn add @types/express -D``
+``npm add @types/express -D``
 
 Adiciona o pacote Bbody-parserody-parser:
-``yarn add body-parser``
+``npm add body-parser``
 
 Adiciona o pacote Cors:
-``yarn add cors``
+``npm add cors``
 
 Adiciona o pacote Mongoose para uso do MongoDB:
-``yarn add mongoose``
+``npm add mongoose``
 
 Dependecias que fazem a conversão do typescript pra javascript(tsc), execução(node) e observação do codigo(nodemon):
-``yarn add ts-node-dev -D``
+``npm add ts-node-dev -D``
 
 Adicione o ``"dev":"ts-node-dev --respawn src/server.ts"`` na parte ``scripts`` da pasta ``package.json``.
 
-Adiciona o pacote do Firebird:
-``yarn add node-firebird``
-
-Para fazer o uso do Firebird é preciso alterar tais trechos do arquivo ``firebird.conf``.
-``AuthServer = Srp256, Srp, Legacy_Auth``
-``WireCrypt = Disabled``
-``UserManager = Legacy_UserManager``
-``AuthClient = Srp256, Srp, Win_Sspi, Legacy_Auth #Windows clients``
-Depois reiniciar o serviço Firebird.
 
 Para executar o projeto:
-``yarn dev``
+``npm dev``
 
 <h2 align="center">Autores</h2>
 
