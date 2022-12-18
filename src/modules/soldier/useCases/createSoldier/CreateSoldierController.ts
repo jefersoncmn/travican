@@ -10,7 +10,7 @@ class CreateSoldierController {
 
             const createSoldierUseCase : CreateSoldierUseCase = new CreateSoldierUseCase();
 
-            const user = await createSoldierUseCase.execute({
+            const newSoldier = await createSoldierUseCase.execute({
                 name: name,
                 attack : attack,
                 defense : defense,
@@ -20,10 +20,10 @@ class CreateSoldierController {
                 budgetAmout : budgetAmout, 
                 budgetResourceTypeId : budgetResourceTypeId
             });
-            return response.json(user);       
+            return response.json(newSoldier);       
         } catch (error) {
             return response.json({
-                status: "Error to create soldier",
+                status: "Error to create Soldier - CreateSoldierController",
                 message: error
             });
         }

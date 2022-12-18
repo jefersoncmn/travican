@@ -34,12 +34,12 @@ class CreateProductionUseCase {
                 timeToHarvest: timeToHarvest,
                 timeToUpgrade: timeToUpgrade,
                 returnedResource: { create: {
-                    id_resourceType: returnedResourceResourceTypeId,
                     amount: returnedResourceAmount,
+                    resourceType: { connect: { id: returnedResourceResourceTypeId }},
                 }},
                 costToUpgrade: { create: {
-                    id_resourceType: costToUpgradeResourceTypeId,
-                    amount: costToUpgradeAmount
+                    amount: costToUpgradeAmount,
+                    resourceType: { connect: { id: costToUpgradeResourceTypeId }},
                 }}
             }
         });

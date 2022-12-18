@@ -15,7 +15,7 @@ class AuthenticateUserUseCase {
         //Verificar se usuário existe
         const userAlreadyExists = await client.user.findFirst({
             where: {
-                userName: username
+                username: username
             }
         });
 

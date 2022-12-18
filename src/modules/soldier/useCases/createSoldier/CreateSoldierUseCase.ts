@@ -24,25 +24,30 @@ class CreateSoldierUseCase {
         });
 
         if(soldierAlreadyExists){
-            throw new Error("Soldeir already exists!");
+            throw new Error("Soldier already exists!");
         }
 
-        const soldier = await client.soldier.create({
+        const newSoldier = await client.soldier.create({
             data:{
                 name: name,
                 attack: attack,
                 defense: defense,
                 timeToSpawn: timeToSpawn,
                 costToSpawn: {create:{
-                    id_resourceType: costToSpawnResourceTypeId,
-                    amount: costToSpawnAmount
+                    resourceType: { connect: { id: costToSpawnResourceTypeId }},
+                    amount: costToSpawnAmount,
+                    // land: {},
                 }},
                 budget: {create:{
-                    id_resourceType: budgetResourceTypeId,
-                    amount: budgetAmout
+                    resourceType: { connect: { id: budgetResourceTypeId }},
+                    amount: budgetAmout,
+                    // land: [],
                 }},
             }
         });
+        
+
+        //TODO finish this!
     }   
 }
 

@@ -9,7 +9,7 @@ class CreateProductionController {
 
             const createProductionUseCase : CreateProductionUseCase = new CreateProductionUseCase();
 
-            const user = await createProductionUseCase.execute({
+            const newProduction = await createProductionUseCase.execute({
                 name: name,
                 level: level,
                 costToUpgradeAmount: costToUpgradeAmount,
@@ -19,10 +19,10 @@ class CreateProductionController {
                 timeToHarvest: timeToHarvest,
                 timeToUpgrade: timeToUpgrade
             });
-            return response.json(user);       
+            return response.json(newProduction);       
         } catch (error) {
             return response.json({
-                status: "Error to create soldier",
+                status: "Error to create Production",
                 message: error
             });
         }

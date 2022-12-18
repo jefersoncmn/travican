@@ -9,18 +9,11 @@ interface IGetSoldierRequest {
 
 class GetSoldierUseCase {
     async execute({ id }:IGetSoldierRequest){
-
-        if(id){
-            const soldier = await client.soldier.findFirst({
-                where:{
-                    id: id
-                }
-            });
-            return soldier;
-        } else {
-            const soldier = await client.soldier.findMany();
-            return soldier;
-        }
+        return await client.soldier.findFirst({
+            where:{
+                id: id,
+            }
+        });
     }   
 }
 

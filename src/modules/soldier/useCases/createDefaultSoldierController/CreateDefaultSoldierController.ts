@@ -1,16 +1,14 @@
-import { Request, Response } from "express";
-import { GetResourceTypeController } from "../../../resourceType/useCases/getResourceType/GetResourceTypeController";
-import { GetResourceTypeUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeUseCase";
+import { GetResourceTypeByNameUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeByNameUseCase";
 import { CreateSoldierUseCase } from "../createSoldier/CreateSoldierUseCase";
 
 class CreateDefaultSoldierController {
     async handle(){
         
         try {
-            const getResourceTypeUseCase : GetResourceTypeUseCase = new GetResourceTypeUseCase();
-            const food = await getResourceTypeUseCase.execute({name: "Food"});
-            const gold = await getResourceTypeUseCase.execute({name: "Gold"});
-
+            const getResourceTypeByNameUseCase : GetResourceTypeByNameUseCase = new GetResourceTypeByNameUseCase();
+            const food = await getResourceTypeByNameUseCase.execute({name: "Food"});
+            const gold = await getResourceTypeByNameUseCase.execute({name: "Gold"});
+            
             const defaultSoldiers = [
                 {
                     name: "Guerreiro Simples", 
@@ -18,9 +16,9 @@ class CreateDefaultSoldierController {
                     defense: 10.0, 
                     timeToSpawn: 20000, 
                     costToSpawnAmount: 100, 
-                    costToSpawnResourceTypeId: food?.id,
+                    costToSpawnResourceTypeId: food!.id,
                     budgetAmout: 40,
-                    budgetResourceTypeId: gold?.id
+                    budgetResourceTypeId: gold!.id
                 },
                 {
                     name: "Guerreiro Armadurado", 
@@ -28,9 +26,9 @@ class CreateDefaultSoldierController {
                     defense: 40.0, 
                     timeToSpawn: 50000, 
                     costToSpawnAmount: 300, 
-                    costToSpawnResourceTypeId: food?.id,
+                    costToSpawnResourceTypeId: food!.id,
                     budgetAmout: 100,
-                    budgetResourceTypeId: gold?.id
+                    budgetResourceTypeId: gold!.id
                 },
             ]
             const createSoldierUseCase : CreateSoldierUseCase = new CreateSoldierUseCase();
@@ -49,7 +47,7 @@ class CreateDefaultSoldierController {
             }
             
         } catch (error) {
-            console.log("Error to create Soldier");
+            console.log("Error to create Soldier - CreateDefaultSoldierController"+error);
         }
     }
 }   

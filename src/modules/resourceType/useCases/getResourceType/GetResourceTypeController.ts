@@ -10,7 +10,6 @@ class GetResourceTypeController {
         try {
             const resourceTypes = await getResourceTypeUseCase.execute({
                 id: id,
-                name: name
             });
             return response.json(resourceTypes);        
         } catch (error) {

@@ -11,6 +11,7 @@ CREATE TABLE `resources` (
     `id` VARCHAR(191) NOT NULL,
     `amount` INTEGER NOT NULL,
     `id_resourceType` VARCHAR(191) NOT NULL,
+    `id_land` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -79,14 +80,12 @@ CREATE TABLE `world_resourceType` (
 CREATE TABLE `lands` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `id_resource` VARCHAR(191) NOT NULL,
     `id_army` VARCHAR(191) NOT NULL,
     `positionX` INTEGER NOT NULL,
     `positionY` INTEGER NOT NULL,
     `id_world` VARCHAR(191) NOT NULL,
     `id_user` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `lands_id_resource_key`(`id_resource`),
     UNIQUE INDEX `lands_id_army_key`(`id_army`),
     UNIQUE INDEX `lands_id_user_key`(`id_user`),
     PRIMARY KEY (`id`)
@@ -129,11 +128,11 @@ CREATE TABLE `Event` (
 CREATE TABLE `users` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `userName` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NULL,
 
-    UNIQUE INDEX `users_userName_key`(`userName`),
+    UNIQUE INDEX `users_username_key`(`username`),
     UNIQUE INDEX `users_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -150,6 +149,9 @@ CREATE TABLE `refresh_token` (
 
 -- AddForeignKey
 ALTER TABLE `resources` ADD CONSTRAINT `resources_id_resourceType_fkey` FOREIGN KEY (`id_resourceType`) REFERENCES `resourcetypes`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `resources` ADD CONSTRAINT `resources_id_land_fkey` FOREIGN KEY (`id_land`) REFERENCES `lands`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `productions` ADD CONSTRAINT `productions_id_costToUpgrade_fkey` FOREIGN KEY (`id_costToUpgrade`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -174,9 +176,6 @@ ALTER TABLE `world_resourceType` ADD CONSTRAINT `world_resourceType_id_resourceT
 
 -- AddForeignKey
 ALTER TABLE `world_resourceType` ADD CONSTRAINT `world_resourceType_id_world_fkey` FOREIGN KEY (`id_world`) REFERENCES `worlds`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `lands` ADD CONSTRAINT `lands_id_resource_fkey` FOREIGN KEY (`id_resource`) REFERENCES `resources`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `lands` ADD CONSTRAINT `lands_id_army_fkey` FOREIGN KEY (`id_army`) REFERENCES `armys`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

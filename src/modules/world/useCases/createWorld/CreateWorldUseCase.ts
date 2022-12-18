@@ -1,7 +1,5 @@
-import { connect } from "mongoose";
-import { create } from "node-firebird";
 import { client } from "../../../../model/prisma/client";
-import { GetResourceTypeUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeUseCase";
+import { GetResourceTypeByNameUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeByNameUseCase";
 
 interface ICreateWorldRequest {
     name: string;
@@ -22,38 +20,26 @@ class CreateWorldUseCase {
             throw new Error("World already exists!");
         }
 
-        const getResourceTypeUseCase : GetResourceTypeUseCase = new GetResourceTypeUseCase();
-        const food = await getResourceTypeUseCase.execute({name: "Food"});
-        const gold = await getResourceTypeUseCase.execute({name: "Gold"});
-
+        const getResourceTypeByNameUseCase : GetResourceTypeByNameUseCase = new GetResourceTypeByNameUseCase();
+        const food = await getResourceTypeByNameUseCase.execute({name: "Food"});
+        const gold = await getResourceTypeByNameUseCase.execute({name: "Gold"});
+        
         const newWorld = await client.world.create({
             data:{
                 name: name,
                 lootPercentage: lootPercentage,
+                WorldResourceType: {
+                    create: [
+                        {
+                            resourceType: { connect: {id: food!.id}}
+                        },
+                        {
+                            resourceType: { connect: {id: gold!.id}}
+                        }
+                    ]
+                }
             }
         });
-
-        const worldResourceTypeFood = await client.worldResourceType.create({
-            data:{
-                id_resourceType: food!.id,
-                id_world: newWorld.id,
-            },
-        });
-        const worldResourceTypeGold = await client.worldResourceType.create({
-            data:{
-                id_resourceType: gold!.id,
-                id_world: newWorld.id,
-            },
-        });
-
-        await client.world.update({
-            where:{
-                id: newWorld.id,
-            },
-            data:{
-                WorldResourceType: {connect: [{id:worldResourceTypeFood.id},{id:worldResourceTypeGold.id}]}
-            }
-        }) 
     }   
 }
 

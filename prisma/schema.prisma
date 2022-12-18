@@ -31,7 +31,9 @@ model Resource {
   id_resourceType String
   resourceType ResourceType @relation(fields: [id_resourceType], references: [id])
 
-  land Land?
+  // land Land?
+  id_land String?
+  land Land? @relation(fields: [id_land], references: [id])
   
   CostToUpgrade Production[] @relation("CostToUpgrade")
   ReturnedResource Production[] @relation("ReturnedResource")
@@ -119,8 +121,9 @@ model Land {
   id String @id @default(uuid())
   name String
   //Recursos
-  id_resource String @unique
-  resource Resource @relation(fields: [id_resource], references: [id])
+  // id_resource String @unique
+  // resource Resource @relation(fields: [id_resource], references: [id])
+  resources Resource[]
   //Exercito
   id_army String @unique
   army Army @relation(fields: [id_army], references: [id])
@@ -185,7 +188,7 @@ model Event {
 model User  {
   id String @id @default(uuid())
   name String 
-  userName String @unique
+  username String @unique
   password String
   email String? @unique
   refresh_token RefreshToken?

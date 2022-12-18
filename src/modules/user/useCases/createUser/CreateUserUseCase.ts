@@ -1,4 +1,5 @@
 import { hash } from "bcryptjs";//Criptografa
+import { connect } from "mongoose";
 import { AppError } from "../../../../errors/AppError";
 import { client } from "../../../../model/prisma/client";
 import { CreateLandUseCase } from "../../../land/useCases/createLand/CreateLandUseCase";
@@ -15,7 +16,7 @@ class CreateUserUseCase {
         //Verificar se usuário existe
         const userAlreadyExists = await client.user.findFirst({
             where:{
-                userName: username
+                username: username
             }
         });
 
@@ -30,12 +31,12 @@ class CreateUserUseCase {
         const newUser = await client.user.create({
             data:{
                 name: name,
-                userName: username,
+                username: username,
                 password: passwordHash,
             }
         });
-        //Criar a Land
-        // await createLandUseCase.execute({name: name, username: username});
+        // //Criar a Land
+        // const newLand = await createLandUseCase.execute({name: name, username: username});
 
         return newUser;
     }   

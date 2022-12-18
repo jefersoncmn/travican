@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
-import { GetResourceTypeUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeUseCase";
+import { GetResourceTypeByNameUseCase } from "../../../resourceType/useCases/getResourceType/GetResourceTypeByNameUseCase";
 import { CreateProductionUseCase } from "../createProduction/CreateProductionUseCase";
 
 class CreateDefaultProductionController {
     async handle(){
         
         try {
-            const getResourceTypeUseCase : GetResourceTypeUseCase = new GetResourceTypeUseCase();
-            const food = await getResourceTypeUseCase.execute({name: "Food"});
-            const gold = await getResourceTypeUseCase.execute({name: "Gold"});
+            const getResourceTypeByNameUseCase : GetResourceTypeByNameUseCase = new GetResourceTypeByNameUseCase();
+            const food = await getResourceTypeByNameUseCase.execute({name: "Food"});
+            const gold = await getResourceTypeByNameUseCase.execute({name: "Gold"});
 
             const defaultProductions = [
                 {
@@ -18,18 +17,18 @@ class CreateDefaultProductionController {
                     costToUpgradeResourceTypeId: gold!.id,
                     returnedResourceAmount: 100.0,
                     returnedResourceResourceTypeId: gold!.id,
-                    timeToHarvest: 60000,
+                    timeToHarvest: 60,
                     timeToUpgrade: 0
                 },
                 {
                     name: "Mina", 
                     level: 2,
-                    costToUpgradeAmount: 1000,
+                    costToUpgradeAmount: 100,
                     costToUpgradeResourceTypeId: gold!.id,
                     returnedResourceAmount: 200.0,
                     returnedResourceResourceTypeId: gold!.id,
-                    timeToHarvest: 120000,
-                    timeToUpgrade: 300000,
+                    timeToHarvest: 60,
+                    timeToUpgrade: 120,
                 },
                 {
                     name: "Fazenda", 
@@ -38,18 +37,18 @@ class CreateDefaultProductionController {
                     costToUpgradeResourceTypeId: gold!.id,
                     returnedResourceAmount: 10.0,
                     returnedResourceResourceTypeId: food!.id,
-                    timeToHarvest: 60000,
+                    timeToHarvest: 60,
                     timeToUpgrade: 0
                 },
                 {
                     name: "Fazenda", 
                     level: 2,
-                    costToUpgradeAmount: 5000,
+                    costToUpgradeAmount: 50,
                     costToUpgradeResourceTypeId: gold!.id,
                     returnedResourceAmount: 20.0,
                     returnedResourceResourceTypeId: food!.id,
-                    timeToHarvest: 120000,
-                    timeToUpgrade: 300000,
+                    timeToHarvest: 60,
+                    timeToUpgrade: 120,
                 },
                 
             ]
