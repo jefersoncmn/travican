@@ -9,10 +9,10 @@ const app = express();
 import { router } from "./routes/userRoutes";
 import { AppError } from './errors/AppError';
 import { CreateDefaultResourceTypeController } from './modules/resourceType/useCases/createDefaultResourceType/CreateDefaultResourceType';
+import { EventsController } from './managers/events/EventsController';
 import { CreateDefaultSoldierController } from './modules/soldier/useCases/createDefaultSoldierController/CreateDefaultSoldierController';
 import { CreateDefaultProductionController } from './modules/production/useCases/createDefaultProduction/CreateDefaultProductionController';
 import { CreateDefaultWorldController } from './modules/world/useCases/createDefaultWorld/CreateDefaultWorldController';
-import { EventsController } from './managers/events/EventsController';
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -54,5 +54,5 @@ app.listen(3000, async()=>{
     // //Events
     // await eventsController.getEventsToDataBase();
     await eventsController.eventQueue();
-    console.log("Servidor rodando e pronto para o uso!");
+    console.log("Servidor rodando e pronto para o uso! :D");
 });
