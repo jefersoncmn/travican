@@ -54,5 +54,5 @@ app.listen(3000, async()=>{
     // //Events
     // await eventsController.getEventsToDataBase();
     await eventsController.eventQueue();
-    console.log("Servidor rodando e pronto para o uso! :D");
+    console.log("Servidor rodando e pronto para o uso!");
 });
